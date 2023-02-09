@@ -33,12 +33,8 @@ class Base_model:
 		"""
 			returns a dictionary containing all keys/values of __dict__ of the instance.
 		"""
-		 return {
-			 'id': self.id,
-			 'created_at': self.created_at.isoformat(),
-			 'updated_at': self.updated_at.isoformat(),
-			 '__class__': self.__class__.__name__
-			}
+		return {'id': self.id, 'created_at': self.created_at.isoformat(), 'updated_at': self.updated_at.isoformat(), '__class__': self.__class__.__name__}
+			 
 
 
 
