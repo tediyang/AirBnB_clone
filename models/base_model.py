@@ -1,10 +1,10 @@
-#!/usr/bin/python3
 """
 	Importing modules
 """
 
 import datetime as DT
 import uuid as UD
+from engine import storage
 
 class BaseModel:
 	"""
@@ -27,6 +27,7 @@ class BaseModel:
 			self.id = str(UD.uuid4())
 			self.created_at = DT.datetime.now()
 			self.updated_at = self.created_at
+			storage.new(self)
 
 	def __str__(self):
 		"""
@@ -39,6 +40,7 @@ class BaseModel:
 			updates the public instance attribute updated_at with the current datetime
 		"""
 		self.updated_at = DT.datetime.now()
+		return storage.save()
 
 	def to_dict(self):
 		"""
@@ -52,3 +54,17 @@ class BaseModel:
 		return self.__dict__
 
 
+
+if __name__ == "__main__":
+	all_objs = storage.all()
+	print("-- Reloaded objects --")
+	for obj_id in all_objs.keys():
+		obj = all_objs[obj_id]
+		print(obj)
+
+	print("-- Create a new object --")
+	my_model = BaseModel()
+	my_model.name = "My_First_Model"
+	my_model.my_number = 89
+	my_model.save()
+	print(my_model)
