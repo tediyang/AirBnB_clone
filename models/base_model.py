@@ -10,7 +10,7 @@ class BaseModel:
 	"""
 		This is the basemodel where all the 
 		variables and method defined and other classes
-        will inherit from.
+        	will inherit from.
 	"""
 
 	def __init__(self, *args, **kwargs):
@@ -50,3 +50,5 @@ class BaseModel:
 		self.__dict__['updated_at'] = self.updated_at.isoformat()
 
 		return self.__dict__
+
+
