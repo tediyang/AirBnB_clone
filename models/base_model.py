@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 """
 	Importing modules
 """
@@ -30,7 +28,7 @@ class BaseModel:
 			self.id = str(UD.uuid4())
 			self.created_at = DT.datetime.now()
 			self.updated_at = self.created_at
-			storage.new(self)
+			storage.new(self.to_dict())
 
 	def __str__(self):
 		"""

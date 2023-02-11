@@ -1,10 +1,7 @@
-#!/usr/bin/python3
-
 """
     Import necessary modules
 """
 import json
-from models.base_model import BaseModel
 
 class FileStorage:
     """ This is the storage class, that stores in
@@ -21,15 +18,19 @@ class FileStorage:
     
     def new(self, obj):
         ''' add new value to the object_dict '''
-        key = f'{obj.__class__.__name__}.{obj.id}'
+        key = f'{obj["__class__"]}.{obj["id"]}'
         value = obj
         self.__objects[key] = value
     
     def save(self):
         ''' save to json format (serialization) '''
-        conv_obj = {obj: self.__objects[obj].to_dict() for obj in self.__objects.keys()}
+        conv_obj = {obj: self.__objects[obj] for obj in self.__objects.keys()}
+        for value in conv_obj.values():
+            for key, value in value.items():
+                if key in ['created_at', 'updated_at']:
+                    value[key] = str(value)
         with open(self.__file_path, "w") as f:
-            return json.dump(conv_obj, f)
+            return json.dump(conv_obj, f,)
 
     
     def reload(self):
@@ -43,9 +44,8 @@ class FileStorage:
                     passed as kwargs.
                 '''
                 for value in loaded.values():
-                    cls_name = value["__class__"]
                     del value["__class__"]
-                    self.new(eval(cls_name)(**value))
+                    self.new(value)
 
         except FileNotFoundError:
             return
