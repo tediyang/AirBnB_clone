@@ -4,7 +4,8 @@
 
 import datetime as DT
 import uuid as UD
-from engine import storage
+
+storage = __import__('__init__').storage
 
 class BaseModel:
 	"""

@@ -2,7 +2,8 @@
     Import necessary modules
 """
 import json
-from models.base_model import BaseModel
+
+
 
 class FileStorage:
     """ This is the storage class, that stores in
@@ -44,5 +45,6 @@ class FileStorage:
                     cls_name = value["__class__"]
                     del value["__class__"]
                     self.new(eval(cls_name)(**value))
+
         except FileNotFoundError:
             return
