@@ -1,9 +1,12 @@
+#!/usr/bin/python3
+
 """
     Import necessary modules
 """
 import json
+from models.base_model import BaseModel
 
-
+BaseModel = __import__("__init__").BaseModel
 
 class FileStorage:
     """ This is the storage class, that stores in
