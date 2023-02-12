@@ -1,21 +1,34 @@
-#!/usr/bin/python3
 """
-	importing modules
+	Importing modules
 """
 
-import datetime as DT 
-import uuid as UD 
+import datetime as DT
+import uuid as UD
+
+storage = __import__('__init__').storage
+
 class BaseModel:
 	"""
-		This is the basemodel where i have all the 
-		variables and method defined.
+		This is the basemodel where all the 
+		variables and method defined and other classes
+        will inherit from.
 	"""
 
-	def __init__(self):
-		self.id = str(UD.uuid4()) 
-		self.created_at = DT.datetime.now()
-		self.updated_at = self.created_at 
-
+	def __init__(self, *args, **kwargs):
+		"""
+        	Initialization of the variabes
+		"""
+		if len(kwargs) > 0:
+			for key, value in kwargs.items():
+				if key in ['created_at', 'updated_at']:
+					setattr(self, key, DT.datetime.fromisoformat(value))
+				elif key != "__class__":
+					setattr(self, key, value)
+		else:
+			self.id = str(UD.uuid4())
+			self.created_at = DT.datetime.now()
+			self.updated_at = self.created_at
+			storage.new(self.to_dict())
 
 	def __str__(self):
 		"""
@@ -25,37 +38,34 @@ class BaseModel:
 
 	def save(self):
 		"""
-			 updates the public instance attribute updated_at with the current datetime
+			updates the public instance attribute updated_at with the current datetime
 		"""
 		self.updated_at = DT.datetime.now()
+		return storage.save()
 
 	def to_dict(self):
 		"""
 			returns a dictionary containing all keys/values of __dict__ of the instance.
 		"""
-		return {'id': self.id, 'created_at': self.created_at.isoformat(), 'updated_at': self.updated_at.isoformat(), '__class__': self.__class__.__name__}
-			 
+		if "__class__" not in self.__dict__.keys():
+			self.__dict__["__class__"] = self.__class__.__name__
+		self.__dict__['created_at'] = self.created_at.isoformat()
+		self.__dict__['updated_at'] = self.updated_at.isoformat()
 
-def main():
-	my_model = BaseModel()
-	my_model.name = "My First Model"
-	my_model.my_number = 89
-	print(my_model)
-	my_model.save()
-	print(my_model)
-	my_model_json = my_model.to_dict()
-	print(my_model_json)
-	print("JSON of my_model:")
-	
-	for key in my_model_json.keys():
-		print("\t{}: ({}) - {}".format(key, type(my_model_json[key]), my_model_json[key]))
+		return self.__dict__
 
 
-	
 
 if __name__ == "__main__":
-	main()
+	all_objs = storage.all()
+	print("-- Reloaded objects --")
+	for obj_id in all_objs.keys():
+		obj = all_objs[obj_id]
+		print(obj)
 
-
-
-
+	print("-- Create a new object --")
+	my_model = BaseModel()
+	my_model.name = "My_First_Model"
+	my_model.my_number = 89
+	my_model.save()
+	print(my_model)
