@@ -1,10 +1,12 @@
+#!/usr/bin/python3
+
 """
 	Importing modules
 """
 
 import datetime as DT
 import uuid as UD
-from models import storage
+import models
 
 class BaseModel:
 	"""
@@ -27,7 +29,7 @@ class BaseModel:
 			self.id = str(UD.uuid4())
 			self.created_at = DT.datetime.now()
 			self.updated_at = self.created_at
-			storage.new(self.to_dict())
+			models.storage.new(self)
 
 	def __str__(self):
 		"""
@@ -40,7 +42,7 @@ class BaseModel:
 			updates the public instance attribute updated_at with the current datetime
 		"""
 		self.updated_at = DT.datetime.now()
-		return storage.save()
+		return models.storage.save()
 
 	def to_dict(self):
 		"""

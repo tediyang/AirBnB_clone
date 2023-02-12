@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 """
     cmd module to call subclasses.
 """
@@ -43,7 +45,9 @@ class HBNBCommand(cmd.Cmd):
             return
 
         else:
-            print(BaseModel().id)
+            new = BaseModel()
+            new.save()
+            print(new.id)
 
     def do_show(self, line):
         pass
