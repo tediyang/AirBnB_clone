@@ -1,18 +1,12 @@
+#!/usr/bin/python3
+
 """
     Import necessary modules
 """
 
 import json
 from json import JSONEncoder
-import datetime
-
-
-class DateTimeEncoder(JSONEncoder):
-    """ Convert datetime to json format """
-    def default(self, obj):
-        """ Override the default method """
-        if isinstance(obj, (datetime.date, datetime.datetime)):
-            return obj.isoformat()
+from models.base_model import BaseModel
 
 
 class FileStorage:
@@ -32,15 +26,15 @@ class FileStorage:
         ''' obj: a dictionary of values
             this function adds new value to the object_dict
         '''
-        key = f'{obj["__class__"]}.{obj["id"]}'
+        key = f'{obj.__class__.__name__}.{obj.id}'
         value = obj
         self.__objects[key] = value
     
     def save(self):
         ''' save to json format (serialization) '''
-        conv_obj = {obj: self.__objects[obj] for obj in self.__objects.keys()}
+        conv_obj = {obj: self.__objects[obj].to_dict() for obj in self.__objects.keys()}
         with open(self.__file_path, "w") as f:
-            return json.dump(conv_obj, f, cls=DateTimeEncoder)
+            return json.dump(conv_obj, f)
 
     
     def reload(self):
@@ -53,7 +47,9 @@ class FileStorage:
                     (dict of keys and values) passed as kwargs.
                 '''
                 for value in loaded.values():
-                    self.new(value)
+                    cls_name = value["__class__"]
+                    del value["__class__"]
+                    self.new(eval(cls_name)(**value))
 
         except FileNotFoundError:
             return
