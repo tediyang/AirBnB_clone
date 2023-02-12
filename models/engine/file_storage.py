@@ -1,8 +1,6 @@
 #!/usr/bin/python3
-<<<<<<< HEAD
-=======
 
->>>>>>> 0b132bf31772cedfac678c44a07dfa599e593221
+
 """
     Import necessary modules
 """
