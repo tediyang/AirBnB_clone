@@ -5,6 +5,7 @@
 """
 import cmd
 from models.base_model import BaseModel
+from models import storage
 
 
 class HBNBCommand(cmd.Cmd):
@@ -50,7 +51,36 @@ class HBNBCommand(cmd.Cmd):
             print(new.id)
 
     def do_show(self, line):
-        pass
+        if len(line) == 0:
+            print("** class name missing **")
+            return
+
+        database = storage.all() #---fetch the data saved--
+        database_all = [database[obj_id].__str__() for obj_id in database.keys()]
+
+        command = line.split(" ")
+
+        if len(command) == 1:
+            if command[0] != "BaseModel":
+                print("** class doesn't exist **")
+                return
+            print("** instance id missing **")
+        
+        elif len(command) == 2:
+            if command[0] != "BaseModel":
+                print("** class doesn't exist **")
+                return
+            
+            if len(command[1]) != 36:
+                print("** no instance found **")
+            
+            else:    
+                for data in database_all:
+                    if command[1] in data:
+                        print(data)
+
+        else:
+            print("Too much argument expected 2: Model and id")
 
 
 if __name__ == '__main__':

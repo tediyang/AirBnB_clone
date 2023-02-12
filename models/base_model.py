@@ -50,7 +50,11 @@ class BaseModel:
 		"""
 		if "__class__" not in self.__dict__.keys():
 			self.__dict__["__class__"] = self.__class__.__name__
+		if isinstance(self.__dict__['created_at'], str) and isinstance(self.__dict__['updated_at'], str):
+			self.__dict__['created_at'] = self.created_at
+			self.__dict__['updated_at'] = self.updated_at
+			return self.__dict__
+
 		self.__dict__['created_at'] = self.created_at.isoformat()
 		self.__dict__['updated_at'] = self.updated_at.isoformat()
-
 		return self.__dict__
