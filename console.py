@@ -116,6 +116,20 @@ class HBNBCommand(cmd.Cmd):
                         return
                 print("** no instance found **")
 
+    def do_all(self, line):
+        """print all the data in the storage file. """
+        database = storage.all()
+        database_all = [database[obj].__str__() for obj in database.keys()]
+
+        if len(line) == 0:
+            print(database_all)
+        
+        else:
+            if line != "BaseModel":
+                print("** class doesn't exist **")
+                return
+            print(database_all)
+
 
 if __name__ == '__main__':
 	HBNBCommand().cmdloop()
