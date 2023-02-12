@@ -5,7 +5,6 @@
 """
 
 import json
-from json import JSONEncoder
 from models.base_model import BaseModel
 
 
@@ -23,7 +22,7 @@ class FileStorage:
         return self.__objects
     
     def new(self, obj):
-        ''' obj: a dictionary of values
+        ''' obj: class
             this function adds new value to the object_dict
         '''
         key = f'{obj.__class__.__name__}.{obj.id}'
@@ -43,8 +42,9 @@ class FileStorage:
             with open(self.__file_path) as f:
                 loaded = json.load(f)
                 ''' Below looping through the values (dict of keys and values),
-                    calling the class function new (self.new) with the values
-                    (dict of keys and values) passed as kwargs.
+                    fetching the class name and deleting it from the value dict,
+                    then calling the class function new (self.new) with the class
+                    (after converted back to object using "eval") and passed values as kwargs.
                 '''
                 for value in loaded.values():
                     cls_name = value["__class__"]
