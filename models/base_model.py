@@ -12,7 +12,7 @@ class BaseModel:
 	"""
 		This is the basemodel where all the 
 		variables and method defined and other classes
-        will inherit from.
+        	will inherit from.
 	"""
 
 	def __init__(self, *args, **kwargs):
