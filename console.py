@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 
-
+"""
+    cmd module to call subclasses.
+"""
 import cmd
 from models.base_model import BaseModel
 from models import storage
@@ -9,9 +11,7 @@ from models import storage
 class HBNBCommand(cmd.Cmd):
     """ class name to define all the functions """
 
-
     prompt = '(hbnb) ' #-----to display-----
-
 
     def do_EOF(self, line):
         """ exit programme """
@@ -49,12 +49,48 @@ class HBNBCommand(cmd.Cmd):
             print(new.id)
 
     def do_show(self, line):
+        """ Fetch the data using the Model and id from
+            the file storage.
+        """
+
         if len(line) == 0:
             print("** class name missing **")
             return
 
-        database = storage.all() #---fetch the data saved--
-        database_all = [database[obj_id].__str__() for obj_id in database.keys()]
+        command = line.split(" ")
+
+        if len(command) == 1:
+            if command[0] != "BaseModel":
+                print("** class doesn't exist **")
+                return
+            print("** instance id missing **")
+        
+        elif len(command) == 2:
+            if command[0] != "BaseModel":
+                print("** class doesn't exist **")
+                return
+            
+            if len(command[1]) != 36:
+                print("** no instance found **")
+            
+            else:
+                for key, value in storage.all().items():
+                    if command[1] in key:
+                        print(value.__str__())
+                        return
+                print("** no instance found **")
+
+        else:
+            print("Too much argument expected 2: Model and id")
+
+    def do_destroy(self, line):
+        """ delete data using the model and id from
+            the file storage
+        """
+        
+        if len(line) == 0:
+            print("** class name missing **")
+            return
 
         command = line.split(" ")
 
@@ -73,14 +109,27 @@ class HBNBCommand(cmd.Cmd):
                 print("** no instance found **")
             
             else:    
-                for data in database_all:
-                    if command[1] in data:
-                        print(data)
+                for key in storage.all().keys():
+                    if command[1] in key:
+                        del storage.all()[key]
+                        storage.save()
+                        return
+                print("** no instance found **")
 
+    def do_all(self, line):
+        """print all the data in the storage file. """
+        database = storage.all()
+        database_all = [database[obj].__str__() for obj in database.keys()]
+
+        if len(line) == 0:
+            print(database_all)
+        
         else:
-            print("Too much argument expected 2: Model and id")
+            if line != "BaseModel":
+                print("** class doesn't exist **")
+                return
+            print(database_all)
 
 
 if __name__ == '__main__':
 	HBNBCommand().cmdloop()
-
