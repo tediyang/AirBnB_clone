@@ -6,7 +6,7 @@
 
 import datetime as DT
 import uuid as UD
-import models
+#import models
 
 class BaseModel:
 	"""
