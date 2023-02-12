@@ -5,7 +5,6 @@
 """
 
 import json
-from json import JSONEncoder
 from models.base_model import BaseModel
 
 
