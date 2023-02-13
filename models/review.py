@@ -2,7 +2,8 @@
 
 """ importing neccessary modules """
 
-from base_model import BaseModel
+from models.base_model import BaseModel
+
 class Review(BaseModel):
 	""" class attr """
 	place_id = ""

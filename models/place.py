@@ -2,7 +2,7 @@
 
 """ import module """
 
-from base_model import BaseModel
+from models.base_model import BaseModel
 
 class Place(BaseModel):
 	""" class with attr """

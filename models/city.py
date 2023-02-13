@@ -2,8 +2,7 @@
 
 """ importing module """
 
-from base_model import BaseModel
-#import base_model.BaseModel
+from models.base_model import BaseModel
 
 class City(BaseModel):
 	""" city class with attri """
