@@ -93,7 +93,8 @@ class HBNBCommand(cmd.Cmd):
 
         elif len(command) == 2:
             for key, value in storage.all().items():
-                if command[1] in key:
+                loc = f"{command[0]}.{command[1]}"
+                if loc in key:
                     print(value.__str__())
                     return
             print("** no instance found **")
@@ -121,7 +122,8 @@ class HBNBCommand(cmd.Cmd):
 
         elif len(command) == 2:
             for key in storage.all().keys():
-                if command[1] in key:
+                loc = f"{command[0]}.{command[1]}"
+                if loc in key:
                     del storage.all()[key]
                     storage.save()
                     return
@@ -160,21 +162,24 @@ class HBNBCommand(cmd.Cmd):
 
         elif len(command) == 2:      
             for key in storage.all().keys():
-                if command[1] in key:
+                loc = f"{command[0]}.{command[1]}"
+                if loc in key:
                     print("** attribute name missing **")
                     return
             print("** no instance found **")
 
         elif len(command) == 3:         
             for key in storage.all().keys():
-                if command[1] in key:
+                loc = f"{command[0]}.{command[1]}"
+                if loc in key:
                     print("** value missing **")
                     return
             print("** no instance found **")
             
         elif len(command) == 4:
             for key, value in storage.all().items():
-                if command[1] in key:
+                loc = f"{command[0]}.{command[1]}"
+                if loc in key:
                     value.__dict__[command[2]] = command[3]
                     value.__dict__["updated_at"] = DT.datetime.now()
                     storage.save()
