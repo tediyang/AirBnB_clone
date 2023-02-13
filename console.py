@@ -5,7 +5,9 @@
 """
 import cmd
 from models.base_model import BaseModel
+from models.user import User
 from models import storage
+import datetime as DT
 
 
 class HBNBCommand(cmd.Cmd):
@@ -28,6 +30,11 @@ class HBNBCommand(cmd.Cmd):
         print(' EOF exit line.')
         print(' quit exits command.')
 
+    def make(self, model):
+        new = model()
+        new.save()
+        return new.id
+    
     def do_create(self, line):
         """
             Create a model using the provided class.
@@ -37,48 +44,42 @@ class HBNBCommand(cmd.Cmd):
         """
         if len(line) == 0:
             print("** class name missing **")
-            return
 
-        if len(line) > 0 and line != "BaseModel":
+        elif line not in ["BaseModel", "User"]:
             print("** class doesn't exist **")
             return
 
         else:
-            new = BaseModel()
-            new.save()
-            print(new.id)
+            if line == "BaseModel":
+                print(self.make(BaseModel))
+            else:
+                print(self.make(User))
 
     def do_show(self, line):
-        """ Fetch the data using the Model and id from
+        """
+            Fetch the data using the Model and id from
             the file storage.
         """
+        command = line.split(" ")
 
         if len(line) == 0:
             print("** class name missing **")
-            return
-
-        command = line.split(" ")
-
-        if len(command) == 1:
-            if command[0] != "BaseModel":
-                print("** class doesn't exist **")
-                return
-            print("** instance id missing **")
         
+        elif command[0] not in ["BaseModel", "User"]:
+            print("** class doesn't exist **")
+            
+        elif len(command) == 1:
+            print("** instance id missing **")
+
+        elif len(command[1]) != 36:
+            print("** no instance found **")
+
         elif len(command) == 2:
-            if command[0] != "BaseModel":
-                print("** class doesn't exist **")
-                return
-            
-            if len(command[1]) != 36:
-                print("** no instance found **")
-            
-            else:
-                for key, value in storage.all().items():
-                    if command[1] in key:
-                        print(value.__str__())
-                        return
-                print("** no instance found **")
+            for key, value in storage.all().items():
+                if command[1] in key:
+                    print(value.__str__())
+                    return
+            print("** no instance found **")
 
         else:
             print("Too much argument expected 2: Model and id")
@@ -87,37 +88,30 @@ class HBNBCommand(cmd.Cmd):
         """ delete data using the model and id from
             the file storage
         """
+        command = line.split(" ")
         
         if len(line) == 0:
             print("** class name missing **")
-            return
 
-        command = line.split(" ")
-
-        if len(command) == 1:
-            if command[0] != "BaseModel":
-                print("** class doesn't exist **")
-                return
+        elif command[0] not in ["BaseModel", "User"]:
+            print("** class doesn't exist **")
+            
+        elif len(command) == 1:
             print("** instance id missing **")
         
+        elif len(command[1]) != 36:
+            print("** no instance found **")
+
         elif len(command) == 2:
-            if command[0] != "BaseModel":
-                print("** class doesn't exist **")
-                return
-            
-            if len(command[1]) != 36:
-                print("** no instance found **")
-            
-            else:    
-                for key in storage.all().keys():
-                    if command[1] in key:
-                        del storage.all()[key]
-                        storage.save()
-                        return
-                print("** no instance found **")
+            for key in storage.all().keys():
+                if command[1] in key:
+                    del storage.all()[key]
+                    storage.save()
+                    return
+            print("** no instance found **")
 
     def do_all(self, line):
-        """print all the data in the storage file. """
+        """ print all the data in the storage file. """
         database = storage.all()
         database_all = [database[obj].__str__() for obj in database.keys()]
 
@@ -125,11 +119,54 @@ class HBNBCommand(cmd.Cmd):
             print(database_all)
         
         else:
-            if line != "BaseModel":
+            if line not in ["BaseModel", "User"]:
                 print("** class doesn't exist **")
                 return
             print(database_all)
 
+    def do_update(self, line):
+        """ update the data in the storage file. """
+
+        command = line.split(" ")
+        
+        if len(line) == 0:
+            print("** class name missing **")
+
+        elif command[0] not in ["BaseModel", "User"]:
+            print("** class doesn't exist **")
+            
+        elif len(command) == 1:
+            print("** instance id missing **")
+            
+        elif len(command[1]) != 36:
+            print("** no instance found **")
+
+        elif len(command) == 2:      
+            for key in storage.all().keys():
+                if command[1] in key:
+                    print("** attribute name missing **")
+                    return
+            print("** no instance found **")
+
+        elif len(command) == 3:         
+            for key in storage.all().keys():
+                if command[1] in key:
+                    print("** value missing **")
+                    return
+            print("** no instance found **")
+            
+        elif len(command) == 4:
+            for key, value in storage.all().items():
+                if command[1] in key:
+                    value.__dict__[command[2]] = command[3]
+                    value.__dict__["updated_at"] = DT.datetime.now()
+                    storage.save()
+                    return
+            print("** no instance found **")  
+
+        else:
+            print("Can't update more than one.")
+                
 
 if __name__ == '__main__':
 	HBNBCommand().cmdloop()
