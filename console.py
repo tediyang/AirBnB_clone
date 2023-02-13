@@ -25,6 +25,10 @@ class HBNBCommand(cmd.Cmd):
         """ Quit command to exit the program """
         return True
 
+    def emptyline(self):
+        """Do nothing upon receiving an empty line."""
+        pass
+
     def help(self):
         """ Customized help command """
 
