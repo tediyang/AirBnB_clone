@@ -6,7 +6,7 @@
 
 import datetime as DT
 import uuid as UD
-#import models
+import models
 
 class BaseModel:
 	"""
@@ -48,14 +48,13 @@ class BaseModel:
 		"""
 			returns a dictionary containing all keys/values of __dict__ of the instance.
 		"""
-		if "__class__" not in self.__dict__.keys():
-			self.__dict__["__class__"] = self.__class__.__name__
+		dic = {}
+		dic["__class__"] = self.__class__.__name__
 
-		if isinstance(self.__dict__['created_at'], str) and isinstance(self.__dict__['updated_at'], str):
-			self.__dict__['created_at'] = self.created_at
-			self.__dict__['updated_at'] = self.updated_at
-			return self.__dict__
+		for key, value in self.__dict__.items():
+			if isinstance(value, DT.datetime):
+				dic[key] = value.isoformat()
+			else:
+				dic[key] = value
 
-		self.__dict__['created_at'] = self.created_at.isoformat()
-		self.__dict__['updated_at'] = self.updated_at.isoformat()
-		return self.__dict__
+		return dic
