@@ -19,9 +19,9 @@ class test_Review(unittest.TestCase):
             setup
         """
         cls.dummy_review = Review()
-        cls.dummy_review.text = "test"
-        cls.dummy_review.user_id = User().id
-        cls.dummy_review.place_id = Place().id
+        cls.dummy_review.text = None
+        cls.dummy_review.user_id = None
+        cls.dummy_review.place_id = None
 
     @classmethod
     def tearDownClass(cls):
