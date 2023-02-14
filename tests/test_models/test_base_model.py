@@ -25,7 +25,7 @@ class Test_BaseModel(unittest.TestCase):
 		mock = self.mock
 		self.assertIsInstance(mock, BM)
 		self.assertIsInstance(mock.id, str)
-		matches = re.fullmatchr"\w{8}-\w{4}-\w{4}-\w{4}-w{12}", mock.id)
+		matches = re.fullmatch(r"\w{8}-\w{4}-\w{4}-\w{4}-w{12}", mock.id)
 
 		self.assertTrue(matches)
 
