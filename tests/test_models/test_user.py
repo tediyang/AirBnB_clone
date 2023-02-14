@@ -17,10 +17,10 @@ class test_User(unittest.TestCase):
             setup
         """
         cls.dummy_user = User()
-        cls.dummy_user.email = "tests@test.com"
-        cls.dummy_user.password = "pass"
-        cls.dummy_user.first_name = "john"
-        cls.dummy_user.last_name = "doe"
+        cls.dummy_user.email = ""
+        cls.dummy_user.password = ""
+        cls.dummy_user.first_name = ""
+        cls.dummy_user.last_name = ""
 
     @classmethod
     def tearDownClass(cls):
