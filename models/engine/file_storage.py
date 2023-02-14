@@ -18,14 +18,12 @@ class FileStorage:
     """ This is the storage class, that stores in
         json file.
     """
-    def __init__(self):
-        """ Initialization of variables. """
-        self.__file_path = "file.json"
-        self.__objects = {}
+    __file_path = "file.json"
+    __objects = {}
         
     def all(self):
         """ Return the objects saved in the dictionary. """
-        return self.__objects
+        return FileStorage.__objects
     
     def new(self, obj):
         ''' obj: class
@@ -37,15 +35,15 @@ class FileStorage:
     
     def save(self):
         ''' save to json format (serialization) '''
-        conv_obj = {obj: self.__objects[obj].to_dict() for obj in self.__objects.keys()}
-        with open(self.__file_path, "w") as f:
-            return json.dump(conv_obj, f)
+        conv_obj = {obj: FileStorage.__objects[obj].to_dict() for obj in FileStorage.__objects.keys()}
+        with open(FileStorage.__file_path, "w") as f:
+            return json.dump(conv_obj, f, indent=4)
 
     
     def reload(self):
         ''' load from a json file (deserialization) '''
         try:
-            with open(self.__file_path) as f:
+            with open(FileStorage.__file_path) as f:
                 loaded = json.load(f)
                 ''' Below looping through the values (dict of keys and values),
                     fetching the class name and deleting it from the value dict,
