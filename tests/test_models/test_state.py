@@ -40,6 +40,13 @@ class test_State(unittest.TestCase):
             test attributes
         """
         self.assertTrue(hasattr(self.dummy_state, "name"))
+        
+    def test_name(self):
+        """
+            test for name
+        """
+        self.assertTrue(self.dummy_state.name, None)
+
 
 if __name__ == "__main__":
     unittest.main()

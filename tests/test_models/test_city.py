@@ -43,6 +43,19 @@ class test_City(unittest.TestCase):
         """
         self.assertTrue(hasattr(self.mock_city, "name"))
         self.assertTrue(hasattr(self.mock_city, "state_id"))
+        
+    def test_name(self):
+        """
+            test for name
+        """
+        self.assertTrue(self.mock_city.name, None)
+
+    def test_state_id(self):
+        """
+            test for state_id
+        """
+        self.assertTrue(self.mock_city.state_id, None)
+    
 
 if __name__ == "__main__":
     unittest.main()

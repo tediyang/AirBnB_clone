@@ -46,6 +46,25 @@ class test_Review(unittest.TestCase):
         self.assertTrue(hasattr(self.dummy_review, "text"))
         self.assertTrue(hasattr(self.dummy_review, "user_id"))
         self.assertTrue(hasattr(self.dummy_review, "place_id"))
+        
+    def test_place_id(self):
+        """
+            test for the place id
+        """
+        self.assertTrue(self.dummy_review.place_id, None)
+
+    def test_user_id(self):
+        """
+            test for the place id
+        """
+        self.assertTrue(self.dummy_review.user_id, None)
+
+    def test_text(self):
+        """
+            test for the place id
+        """
+        self.assertTrue(self.dummy_review.text, None)
+
 
 if __name__ == "__main__":
     unittest.main()
