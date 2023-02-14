@@ -60,7 +60,9 @@ class HBNBCommand(cmd.Cmd):
         else:
             for key, value in HBNBCommand.obj_dict.items():
                 if line == key:
-                    self.make(value)
+                    print(self.make(value))
+                    return
+
 
     def do_show(self, line):
         """
