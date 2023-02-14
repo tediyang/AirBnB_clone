@@ -46,6 +46,35 @@ class test_User(unittest.TestCase):
         self.assertTrue(hasattr(self.dummy_user, "password"))
         self.assertTrue(hasattr(self.dummy_user, "first_name"))
         self.assertTrue(hasattr(self.dummy_user, "last_name"))
+        
+    def test_name(self):
+        """
+            test for name
+        """
+        self.assertIsInstance(self.dummy_user.email, str)
+        self.assertTrue(self.dummy_user.email, "")
 
+    def test_password(self):
+        """
+            test for name
+        """
+        self.assertIsInstance(self.dummy_user.password, str)
+        self.assertTrue(self.dummy_user.password, "")
+
+    def test_first_name(self):
+        """
+            test for name
+        """
+        self.assertIsInstance(self.dummy_user.first_name, str)
+        self.assertTrue(self.dummy_user.first_name, "")
+
+    def test_last_name(self):
+        """
+            test for name
+        """
+        self.assertIsInstance(self.dummy_user.last_name, str)
+        self.assertTrue(self.dummy_user.last_name, "")
+
+        
 if __name__ == "__main__":
     unittest.main()
