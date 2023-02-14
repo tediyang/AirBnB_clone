@@ -53,7 +53,7 @@ class FileStorage:
                 for value in loaded.values():
                     cls_name = value["__class__"]
                     del value["__class__"]
-                    self.new(eval(cls_name)(**value))
+                    self.new(eval(cls_name)(**value)) #Using eval is critical
 
         except FileNotFoundError:
             return
