@@ -13,7 +13,8 @@ import datetime as DT
 class HBNBCommand(cmd.Cmd):
     """ class name to define all the functions """
     
-    list_obj = ["BaseModel", "User", "City", "Amenity", "Place", "State", "Review"]
+    obj_dict = {"BaseModel": BaseModel, "User": user.User, "City": city.City, "State": state.State,
+                "Review": review.Review, "Place": place.Place}
 
     prompt = '(hbnb) ' #-----to display-----
 
@@ -48,29 +49,18 @@ class HBNBCommand(cmd.Cmd):
             and if the class is provided doesn't exist
             ** class doesn't exist **
         """
-
+        
         if len(line) == 0:
             print("** class name missing **")
 
-        elif line not in HBNBCommand.list_obj:
+        elif line not in HBNBCommand.obj_dict.keys():
             print("** class doesn't exist **")
             return
 
         else:
-            if line == "BaseModel":
-                print(self.make(BaseModel))
-            elif line == "User":
-                print(self.make(user.User))
-            elif line == "City":
-                print(self.make(city.City))
-            elif line == "State":
-                print(self.make(state.State))
-            elif line == "Review":
-                print(self.make(review.Review))
-            elif line == "Place":
-                print(self.make(place.Place))
-            else:
-                print(self.make(amenity.Amenity))
+            for key, value in HBNBCommand.obj_dict.items():
+                if line == key:
+                    self.make(value)
 
     def do_show(self, line):
         """
@@ -82,7 +72,7 @@ class HBNBCommand(cmd.Cmd):
         if len(line) == 0:
             print("** class name missing **")
         
-        elif command[0] not in HBNBCommand.list_obj:
+        elif command[0] not in HBNBCommand.obj_dict.keys():
             print("** class doesn't exist **")
             
         elif len(command) == 1:
@@ -111,7 +101,7 @@ class HBNBCommand(cmd.Cmd):
         if len(line) == 0:
             print("** class name missing **")
 
-        elif command[0] not in HBNBCommand.list_obj:
+        elif command[0] not in HBNBCommand.obj_dict.keys():
             print("** class doesn't exist **")
             
         elif len(command) == 1:
@@ -138,7 +128,7 @@ class HBNBCommand(cmd.Cmd):
             print(database_all)
         
         else:
-            if line not in HBNBCommand.list_obj:
+            if line not in HBNBCommand.obj_dict.keys():
                 print("** class doesn't exist **")
                 return
             print(database_all)
@@ -151,7 +141,7 @@ class HBNBCommand(cmd.Cmd):
         if len(line) == 0:
             print("** class name missing **")
 
-        elif command[0] not in HBNBCommand.list_obj:
+        elif command[0] not in HBNBCommand.obj_dict.keys():
             print("** class doesn't exist **")
             
         elif len(command) == 1:
