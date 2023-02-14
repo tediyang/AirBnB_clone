@@ -30,7 +30,7 @@ class test_AT(unittest.TestCase):
 
 	def test_attrs(self):
 		""" test for the attr or variables """
-		self.assertTrue(hasattr(self.dummy_amenity, "name"))
+		self.assertTrue(hasattr(self.mock_amenity, "name"))
 
 
 if __name__ == "__main__":
