@@ -34,7 +34,7 @@ class Test_BaseModel(unittest.TestCase):
 	def test_str(self):
 		""" special string representation """
 		mock = self.mock
-		correct_Format = "[{}] ({}) {}".format("BaseModel", dummy.id, dummy.__dict__)
+		correct_Format = "[{}] ({}) {}".format("BaseModel", mock.id, mock.__dict__)
 		self.assertEqual(str(mock), correct_Format)
 
 	def test_dict(self):
