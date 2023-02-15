@@ -29,6 +29,7 @@ class HBNBCommand(cmd.Cmd):
     def emptyline(self):
         """Do nothing upon receiving an empty line."""
         pass
+    
 
     def help(self):
         """ Customized help command """
@@ -133,7 +134,8 @@ class HBNBCommand(cmd.Cmd):
             if line not in HBNBCommand.obj_dict.keys():
                 print("** class doesn't exist **")
                 return
-            print(database_all)
+            else:
+                print([database[obj].__str__() for obj in database.keys() if line in obj])
 
     def do_update(self, line):
         """ update the data in the storage file. """
@@ -181,6 +183,23 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("Can't update more than one.")
                 
+    def default(self, line):
+        H_cmds = {"all": self.do_all}
+        command = line.split(".")
+        if len(command) > 2:
+            print("invalid command")
+            return
+        
+        if command[0] not in HBNBCommand.obj_dict.keys():
+            print("** class doesn't exist **")
+        
+        else:
+            cmd_strp = command[1].rstrip()
+            if cmd_strp in H_cmds.keys():
+                H_cmds[cmd_strp](command[0])
+            else:
+                print("invalid command")
+
 
 if __name__ == '__main__':
 	HBNBCommand().cmdloop()
