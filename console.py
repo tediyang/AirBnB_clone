@@ -9,6 +9,7 @@ from models.base_model import BaseModel
 from models import storage
 from models import *
 import datetime as DT
+import re
 
 
 class HBNBCommand(cmd.Cmd):
@@ -191,23 +192,32 @@ class HBNBCommand(cmd.Cmd):
     def default(self, arg):
         """
             If a known command is not entered then this function
-            will execute.
+            will execute. This creates an alternative way of using
+            the console.
         """
-        H_cmds = {"all()": self.do_all, "count()": self.count}
-        command = arg.split(".")
-        if len(command) > 2:
-            print("invalid command")
-            return
-        
-        if command[0] not in HBNBCommand.obj_dict.keys():
+
+        H_cmds = {"all": self.do_all, "count": self.count, "show": self.do_show}
+        obj_ext = re.search(r'[\w]*', arg)
+        obj_name = obj_ext if obj_ext is None else obj_ext.group(0)
+        if len(obj_name) == 0 or obj_name is None:
             print("** class doesn't exist **")
+            return
+
+        com = re.search(r'(?<=\.)[\w]*', arg)
+        command = com if com is None else com.group(0)
+        if command in ["all", "count"]:
+            H_cmds[command](obj_name)
         
+        elif command in H_cmds.keys():
+            obj_id_ext = re.search(r'(?<=")[\w-]+', arg)
+            obj_id = obj_id_ext if obj_id_ext is None else obj_id_ext.group(0)
+            if obj_id is None:
+                H_cmds[command](obj_name)
+                return
+            H_cmds[command](obj_name + " " + obj_id)
+            
         else:
-            cmd_strp = command[1].rstrip()
-            if cmd_strp in H_cmds.keys():
-                H_cmds[cmd_strp](command[0])
-            else:
-                print("invalid command")
+            print("invalid command")
 
 
 if __name__ == '__main__':
