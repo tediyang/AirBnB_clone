@@ -18,11 +18,11 @@ class HBNBCommand(cmd.Cmd):
 
     prompt = '(hbnb) ' #-----to display-----
 
-    def do_EOF(self, line):
+    def do_EOF(self, arg):
         """ exit programme """
         return True
 
-    def do_quit(self, line):
+    def do_quit(self, arg):
         """ Quit command to exit the program """
         return True
 
@@ -43,7 +43,7 @@ class HBNBCommand(cmd.Cmd):
         new.save()
         return new.id
     
-    def do_create(self, line):
+    def do_create(self, arg):
         """
             Create a model using the provided class.
             if the class is not provided print ** class name missing **
@@ -51,28 +51,28 @@ class HBNBCommand(cmd.Cmd):
             ** class doesn't exist **
         """
         
-        if len(line) == 0:
+        if len(arg) == 0:
             print("** class name missing **")
 
-        elif line not in HBNBCommand.obj_dict.keys():
+        elif arg not in HBNBCommand.obj_dict.keys():
             print("** class doesn't exist **")
             return
 
         else:
             for key, value in HBNBCommand.obj_dict.items():
-                if line == key:
+                if arg == key:
                     print(self.make(value))
                     return
 
 
-    def do_show(self, line):
+    def do_show(self, arg):
         """
             Fetch the data using the Model and id from
             the file storage.
         """
-        command = line.split(" ")
+        command = arg.split(" ")
 
-        if len(line) == 0:
+        if len(arg) == 0:
             print("** class name missing **")
         
         elif command[0] not in HBNBCommand.obj_dict.keys():
@@ -95,13 +95,13 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("Too much argument expected 2: Model and id")
 
-    def do_destroy(self, line):
+    def do_destroy(self, arg):
         """ delete data using the model and id from
             the file storage
         """
-        command = line.split(" ")
+        command = arg.split(" ")
         
-        if len(line) == 0:
+        if len(arg) == 0:
             print("** class name missing **")
 
         elif command[0] not in HBNBCommand.obj_dict.keys():
@@ -122,27 +122,27 @@ class HBNBCommand(cmd.Cmd):
                     return
             print("** no instance found **")
 
-    def do_all(self, line):
+    def do_all(self, arg):
         """ print all the data in the storage file. """
         database = storage.all()
         database_all = [database[obj].__str__() for obj in database.keys()]
 
-        if len(line) == 0:
+        if len(arg) == 0:
             print(database_all)
         
         else:
-            if line not in HBNBCommand.obj_dict.keys():
+            if arg not in HBNBCommand.obj_dict.keys():
                 print("** class doesn't exist **")
                 return
             else:
-                print([database[obj].__str__() for obj in database.keys() if line in obj])
+                print([database[obj].__str__() for obj in database.keys() if arg in obj])
 
-    def do_update(self, line):
+    def do_update(self, arg):
         """ update the data in the storage file. """
 
-        command = line.split(" ")
+        command = arg.split(" ")
         
-        if len(line) == 0:
+        if len(arg) == 0:
             print("** class name missing **")
 
         elif command[0] not in HBNBCommand.obj_dict.keys():
@@ -182,10 +182,18 @@ class HBNBCommand(cmd.Cmd):
 
         else:
             print("Can't update more than one.")
+
+    def count(self, arg):
+        database = storage.all()
+        print(len([database[obj].__str__() for obj in database.keys() if arg in obj]))
                 
-    def default(self, line):
-        H_cmds = {"all()": self.do_all}
-        command = line.split(".")
+    def default(self, arg):
+        """
+            If a known command is not entered then this function
+            will execute.
+        """
+        H_cmds = {"all()": self.do_all, "count()": self.count}
+        command = arg.split(".")
         if len(command) > 2:
             print("invalid command")
             return
