@@ -184,7 +184,7 @@ class HBNBCommand(cmd.Cmd):
             print("Can't update more than one.")
                 
     def default(self, line):
-        H_cmds = {"all": self.do_all}
+        H_cmds = {"all()": self.do_all}
         command = line.split(".")
         if len(command) > 2:
             print("invalid command")
