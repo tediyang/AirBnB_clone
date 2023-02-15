@@ -185,9 +185,11 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("Can't update more than one.")
 
+
     def count(self, arg):
         database = storage.all()
         print(len([database[obj].__str__() for obj in database.keys() if arg in obj]))
+
                 
     def default(self, arg):
         """
@@ -210,20 +212,25 @@ class HBNBCommand(cmd.Cmd):
 
         if command in ["all", "count"]:
             H_cmds[command](obj_name)
-        
-        elif command in ["show", "destroy"]:
-            obj_id_ext = re.search(r'(?<=")[\w-]+', arg)
-            obj_id = obj_id_ext if obj_id_ext is None else obj_id_ext.group(0)
-            if obj_id is None:
-                H_cmds[command](obj_name)
-                return
-            H_cmds[command](obj_name + " " + obj_id)
-
-        elif command in H_cmds:
-            pass
+            return
 
         else:
-            print("invalid command")
+            obj_id_ext = re.search(r'(?<=")[\w.+%@-]+(?=")', arg)
+            obj_id = obj_id_ext if obj_id_ext is None else obj_id_ext.group(0)
+
+            if command in ["show", "destroy"]:
+                if obj_id is None:
+                    H_cmds[command](obj_name)
+                    return
+                H_cmds[command](obj_name + " " + obj_id)
+
+            elif command == "update":
+                details_list = re.findall(r'(?<=")[\w.+%@-]+(?=")', arg)
+                detail = " ".join(details_list)
+                self.do_update(obj_name + " " + detail)
+
+            else:
+                print("invalid command")
 
 
 if __name__ == '__main__':
