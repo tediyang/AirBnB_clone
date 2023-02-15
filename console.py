@@ -3,6 +3,7 @@
 """
     cmd module to call subclasses.
 """
+
 import cmd
 from models.base_model import BaseModel
 from models import storage
@@ -14,7 +15,7 @@ class HBNBCommand(cmd.Cmd):
     """ class name to define all the functions """
     
     obj_dict = {"BaseModel": BaseModel, "User": user.User, "City": city.City, "State": state.State,
-                "Review": review.Review, "Place": place.Place}
+                "Review": review.Review, "Place": place.Place, "Amenity": amenity.Amenity}
 
     prompt = '(hbnb) ' #-----to display-----
 
