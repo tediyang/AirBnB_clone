@@ -196,7 +196,9 @@ class HBNBCommand(cmd.Cmd):
             the console.
         """
 
-        H_cmds = {"all": self.do_all, "count": self.count, "show": self.do_show}
+        H_cmds = {"all": self.do_all, "count": self.count, 
+                  "show": self.do_show, "destroy": self.do_destroy}
+
         obj_ext = re.search(r'[\w]*', arg)
         obj_name = obj_ext if obj_ext is None else obj_ext.group(0)
         if len(obj_name) == 0 or obj_name is None:
@@ -205,17 +207,21 @@ class HBNBCommand(cmd.Cmd):
 
         com = re.search(r'(?<=\.)[\w]*', arg)
         command = com if com is None else com.group(0)
+
         if command in ["all", "count"]:
             H_cmds[command](obj_name)
         
-        elif command in H_cmds.keys():
+        elif command in ["show", "destroy"]:
             obj_id_ext = re.search(r'(?<=")[\w-]+', arg)
             obj_id = obj_id_ext if obj_id_ext is None else obj_id_ext.group(0)
             if obj_id is None:
                 H_cmds[command](obj_name)
                 return
             H_cmds[command](obj_name + " " + obj_id)
-            
+
+        elif command in H_cmds:
+            pass
+
         else:
             print("invalid command")
 
