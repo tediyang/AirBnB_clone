@@ -9,7 +9,7 @@ from models.base_model import BaseModel
 from models import storage
 from models import *
 import datetime as DT
-import re
+import re, ast
 
 
 class HBNBCommand(cmd.Cmd):
@@ -150,7 +150,7 @@ class HBNBCommand(cmd.Cmd):
         elif command[0] not in HBNBCommand.obj_dict.keys():
             print("** class doesn't exist **")
             
-        elif len(command) == 1:
+        elif len(command) == 1 or command[1] == "":
             print("** instance id missing **")
             
         elif len(command[1]) != 36:
@@ -225,9 +225,23 @@ class HBNBCommand(cmd.Cmd):
                 H_cmds[command](obj_name + " " + obj_id)
 
             elif command == "update":
-                details_list = re.findall(r'(?<=")[\w.+%@-]+(?=")', arg)
-                detail = " ".join(details_list)
-                self.do_update(obj_name + " " + detail)
+                obj_dict_ext = re.search(r'{(.*?)}', arg)
+                obj_dict = obj_dict_ext if obj_dict_ext is None else obj_dict_ext.group(0)
+                if obj_dict is None:
+                    details_list = re.findall(r'(?<=")[\w.+%@-]+(?=")', arg)
+                    detail = " ".join(details_list)
+                    self.do_update(obj_name + " " + detail)
+                
+                else:
+                    try:
+                        
+                        obj_dict_conv = ast.literal_eval(obj_dict) \
+                            if len(obj_dict) > 2 else ast.literal_eval(None)
+                        for key, value in obj_dict_conv.items():
+                            self.do_update(obj_name + " " + obj_id + " " + key + " " + str(value))
+
+                    except ValueError or TypeError:
+                        print('Wrong dictionary, "Format: {key: value, ...}"')
 
             else:
                 print("invalid command")
