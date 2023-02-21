@@ -23,7 +23,7 @@ class test_AT(unittest.TestCase):
 		""" testing for the inheritance """
 
 		self.assertIsInstance(self.mock_amenity, BM)
-		self.assertIsTrue(hasattr(self.mock_amenity, "id"))
+		self.assertTrue(hasattr(self.mock_amenity, "id"))
 		self.assertTrue(hasattr(self.mock_amenity, "created_at"))
 		self.assertTrue(hasattr(self.mock_amenity, "updated_at"))
 

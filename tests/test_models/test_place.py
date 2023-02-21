@@ -19,17 +19,18 @@ class test_Place(unittest.TestCase):
             setup
         """
         cls.dummy_city = Place()
-        cls.dummy_city.city_id = City().id
-        cls.dummy_city.user_id = User().id
-        cls.dummy_city.name = "test"
-        cls.dummy_city.description = "testing"
-        cls.dummy_city.number_rooms = 1
-        cls.dummy_city.number_bathrooms = 1
-        cls.dummy_city.max_guest = 1
-        cls.dummy_city.price_by_night = 1
-        cls.dummy_city.latitude = 1.0
-        cls.dummy_city.longitude = 1.0
-        cls.dummy_city.amenity_ids = []
+        cls.dummy_city.city_id = None
+        cls.dummy_city.user_id = None
+        cls.dummy_city.name = None
+        cls.dummy_city.description = None
+        cls.dummy_city.number_rooms = None
+        cls.dummy_city.number_bathrooms = None
+        cls.dummy_city.max_guest = None
+        cls.dummy_city.price_by_night = None
+        cls.dummy_city.latitude = None
+        cls.dummy_city.longitude = None
+        cls.dummy_city.amenity_ids = None
+
 
     @classmethod
     def tearDownClass(cls):
@@ -62,6 +63,67 @@ class test_Place(unittest.TestCase):
         self.assertTrue(hasattr(self.dummy_city, "latitude"))
         self.assertTrue(hasattr(self.dummy_city, "longitude"))
         self.assertTrue(hasattr(self.dummy_city, "amenity_ids"))
+
+    def test_city_id(self):
+        """
+            test for city_id
+        """
+        self.assertTrue(self.dummy_city.city_id, None)
+
+    def test_user_id(self):
+        """
+            test for user_id
+        """
+        self.assertTrue(self.dummy_city.user_id, None)
+
+    def test_description(self):
+        """
+            test for description
+        """
+        self.assertTrue(self.dummy_city.description, None)
+
+    def test_number_rooms(self):
+        """
+            test for number_rooms
+        """
+        self.assertTrue(self.dummy_city.number_rooms, None)
+
+    def test_number_bathrooms(self):
+        """
+            test for number_bathrooms
+        """
+        self.assertTrue(self.dummy_city.number_bathrooms, None)
+
+    def test_max_guest(self):
+        """
+            test for max_guest
+        """
+        self.assertTrue(self.dummy_city.max_guest, None)
+
+    def test_price_by_night(self):
+        """
+            test for price_by_night
+        """
+        self.assertTrue(self.dummy_city.price_by_night, None)
+
+    def test_latitude(self):
+        """
+            test for latitude
+        """
+        self.assertTrue(self.dummy_city.latitude, None)
+
+    def test_longitude(self):
+        """
+            test for longitude
+        """
+        self.assertTrue(self.dummy_city.longitude, None)
+
+    def test_amenities(self):
+        """
+            test for amenities
+        """
+        self.assertTrue(self.dummy_city.amenity_ids, None)
+
 
 if __name__ == "__main__":
     unittest.main()

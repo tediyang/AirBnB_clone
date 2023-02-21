@@ -17,7 +17,7 @@ class test_State(unittest.TestCase):
             setup
         """
         cls.dummy_state = State()
-        cls.dummy_state.name = "tests"
+        cls.dummy_state.name = None
 
     @classmethod
     def tearDownClass(cls):
@@ -40,6 +40,13 @@ class test_State(unittest.TestCase):
             test attributes
         """
         self.assertTrue(hasattr(self.dummy_state, "name"))
+        
+    def test_name(self):
+        """
+            test for name
+        """
+        self.assertTrue(self.dummy_state.name, None)
+
 
 if __name__ == "__main__":
     unittest.main()

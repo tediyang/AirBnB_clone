@@ -18,8 +18,8 @@ class test_City(unittest.TestCase):
             setup.
         """
         cls.mock_city = City()
-        cls.mock_city.name = "test"
-        cls.mock_city.state_id = State().id
+        cls.mock_city.name = None
+        cls.mock_city.state_id = None
 
     @classmethod
     def tearDownClass(cls):
@@ -43,6 +43,19 @@ class test_City(unittest.TestCase):
         """
         self.assertTrue(hasattr(self.mock_city, "name"))
         self.assertTrue(hasattr(self.mock_city, "state_id"))
+        
+    def test_name(self):
+        """
+            test for name
+        """
+        self.assertTrue(self.mock_city.name, None)
+
+    def test_state_id(self):
+        """
+            test for state_id
+        """
+        self.assertTrue(self.mock_city.state_id, None)
+    
 
 if __name__ == "__main__":
     unittest.main()
