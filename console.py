@@ -229,12 +229,11 @@ class HBNBCommand(cmd.Cmd):
                 obj_dict = obj_dict_ext if obj_dict_ext is None else obj_dict_ext.group(0)
                 if obj_dict is None:
                     details_list = re.findall(r'(?<=")[\w.+%@-]+(?=")', arg)
-                    detail = " ".join(details_list)
+                    detail = "".join(details_list)
                     self.do_update(obj_name + " " + detail)
                 
                 else:
-                    try:
-                        
+                    try: 
                         obj_dict_conv = ast.literal_eval(obj_dict) \
                             if len(obj_dict) > 2 else ast.literal_eval(None)
                         for key, value in obj_dict_conv.items():
