@@ -1,11 +1,10 @@
 header {
-        color: white;
-        height: 70px;
-        width: 100%;
-        border-bottom: 1px solid #CCCCCC;
-        position: relative;
+    background-color: #ffffff;
+    height: 70px;
+    width: 100%;
+    border-bottom: 1px solid #CCCCCC;
+    position: relative;
 }
-
 .logo {
         /* Background pattern */
         position: absolute;
@@ -16,4 +15,4 @@ header {
         margin-left: 20px;
         width: 142px;
         height: 60px;
-     }
+}
