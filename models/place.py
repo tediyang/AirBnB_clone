@@ -2,6 +2,9 @@
 """ Place Module for AirBnB project """
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Integer, Float, ForeignKey
+from sqlalchemy.orm import relationship, backref
+from os import getenv
+from models.review import Review
 
 
 class Place(BaseModel, Base):
@@ -18,3 +21,18 @@ class Place(BaseModel, Base):
     latitude = Column(Float)
     longitude = Column(Float)
     # amenity_ids = []
+    places = relationship("Review",
+                         backref=backref("place", cascade="all,delete"),
+                         cascade="all, delete, delete-orphan",
+                         passive_deletes=True,
+                         single_parent=True)
+
+    if getenv("HBNB_TYPE_STORAGE") != "db":
+        @property
+        def reviews(self):
+            """ Return list of reviews with place.id"""
+            # This prevents circular import
+            from models import storage
+            reviews_ = [obj for obj in storage.all(Review)
+                         if obj.place_id == self.id]
+            return reviews_

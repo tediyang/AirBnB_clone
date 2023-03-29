@@ -55,7 +55,8 @@ class DBStorage:
                  for row_obj in rows}
 
     def new(self, obj):
-        """ add the created object to session, but check if the obj is present. """
+        """ add the created object to session,
+            but check if the obj is present. """
         if not obj:
             return        
         self.__session.add(obj)
